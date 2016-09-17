@@ -1,5 +1,5 @@
-defmodule Pinthub.API.User do
-  alias Pinthub.Model.User
+defmodule PintHub.API.User do
+  alias PintHub.Model.User
   use HTTPotion.Base
 
   def process_url(url) do

@@ -1,4 +1,4 @@
-defmodule Pinthub.Mixfile do
+defmodule PintHub.Mixfile do
   use Mix.Project
 
   def project do

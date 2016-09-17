@@ -1,4 +1,4 @@
-defmodule Pinthub.Model.User  do
+defmodule PintHub.Model.User  do
     @derive [Poison.Encoder]
     defstruct [:login, :id, :avatar_url, :gravatar_id, :url,
     :html_url, :followers_url, :following_url,

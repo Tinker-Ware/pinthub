@@ -1,4 +1,4 @@
-# Pinthub
+# PintHub
 
 **TODO: Add description**
 
