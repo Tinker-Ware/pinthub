@@ -1,0 +1,2 @@
+defmodule PintHub do
+end
