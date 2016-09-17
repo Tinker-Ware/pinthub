@@ -1,8 +1,8 @@
-defmodule Github.Mixfile do
+defmodule Pinthub.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :github,
+    [app: :pinthub,
      version: "0.0.1",
      elixir: "~> 1.2",
      build_embedded: Mix.env == :prod,
@@ -23,7 +23,7 @@ defmodule Github.Mixfile do
   #
   # Or git/path repositories:
   #
-  #   {:mydep, git: "https://github.com/elixir-lang/mydep.git", tag: "0.1.0"}
+  #   {:mydep, git: "https://pinthub.com/elixir-lang/mydep.git", tag: "0.1.0"}
   #
   # Type "mix help deps" for more examples and options
   defp deps do
