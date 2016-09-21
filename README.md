@@ -2,6 +2,8 @@
 
 **TODO: Add description**
 
+Still in development, I will add only the endpoints I need at first, later will add more, depending on my available time, feel free to contribute.
+
 ## Installation
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed as:
@@ -17,3 +19,5 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
         def application do
           [applications: [:pinthub]]
         end
+
+Based on [mustafaturan/oceanex](https://github.com/mustafaturan/oceanex)
