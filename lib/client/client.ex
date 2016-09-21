@@ -1,33 +1,32 @@
 defmodule PintHub.Client do
   @moduledoc """
-  Oceanex Client Module.
+  PintHub Client Module.
   """
 
-  @base_url "https://api.github.com"
   import HTTPoison, only: [request: 5]
 
   @doc """
-  HTTP GET request to DigitalOcean API
+  HTTP GET request to Github API
   """
-  def get(path, opts \\ ""),
+  def get(path, opts \\ %{}),
     do: call(path, :get, opts)
 
   @doc """
-  HTTP POST request to DigitalOcean API
+  HTTP POST request to Github API
   """
-  def post(path, opts \\ ""),
+  def post(path, opts \\ %{}),
     do: call(path, :post, opts)
 
   @doc """
-  HTTP PUT request to DigitalOcean API
+  HTTP PUT request to Github API
   """
-  def put(path, opts \\ ""),
+  def put(path, opts \\ %{}),
     do: call(path, :put, opts)
 
   @doc """
-  HTTP DELETE request to DigitalOcean API
+  HTTP DELETE request to Github API
   """
-  def delete(path, opts \\ ""),
+  def delete(path, opts \\ %{}),
     do: call(path, :delete, opts)
 
   @doc """
@@ -40,17 +39,16 @@ defmodule PintHub.Client do
 
   defp call(path, method, %{request_body: request_body, token: token}) do
     body = Poison.encode!(request_body)
-    request(method, gen_endpoint(path), body, headers(token), []) |> response
-  end
-  defp call(path, method, %{request_body: request_body}) do
-    body = Poison.encode!(request_body)
-    request(method, gen_endpoint(path), body, headers, []) |> response
+    request(method, gen_endpoint(path), body, headers(token), [])
+    |> response
   end
   defp call(path, method, %{token: token}) do
-    request(method, gen_endpoint(path), nil, headers(token), []) |> response
+    request(method, gen_endpoint(path), [], headers(token), [])
+    |> response
   end
   defp call(path, method, _opts) do
-    request(method, gen_endpoint(path), nil, headers, []) |> response
+    request(method, gen_endpoint(path), [], headers, [])
+    |> response
   end
 
   defp response({:ok, %HTTPoison.Response{body: nil} = resp}),
@@ -72,5 +70,5 @@ defmodule PintHub.Client do
   end
 
   defp gen_endpoint(path),
-    do: @base_url <> path
+    do: "https://api.github.com" <> path
 end
