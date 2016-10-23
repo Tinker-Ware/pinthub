@@ -3,7 +3,7 @@ defmodule PintHub.OAUTH do
     Github `OAUTH` related functionality
     [Github OAUTH](https://developer.github.com/v3/oauth/)
   """
-  @base_url "https://github.com/login/oauth/authorize?"
+  @base_url "https://github.com/login/oauth/authorize"
 
   @doc """
     Generates the oauth URL for Github, receives the following options:
@@ -24,5 +24,12 @@ defmodule PintHub.OAUTH do
 
     URI.to_string(%URI{scheme: "https", host: "github.com", path: "/login/oauth/authorize",
                   query: uri})
+  end
+
+  @doc """
+  Gets the OAuth token from Github
+  """
+  def exchange_token(code) do
+
   end
 end
