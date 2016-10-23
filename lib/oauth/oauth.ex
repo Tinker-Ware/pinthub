@@ -22,7 +22,7 @@ defmodule PintHub.OAUTH do
       |> Map.put(:client_id, client_id)
     uri = URI.encode_query(opts)
 
-    URI.to_string(%URI{scheme: "https", host: "github.com", path: "/login/oauth/authorize", 
+    URI.to_string(%URI{scheme: "https", host: "github.com", path: "/login/oauth/authorize",
                   query: uri})
   end
 end
