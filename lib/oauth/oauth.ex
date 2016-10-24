@@ -34,15 +34,14 @@ defmodule PintHub.OAUTH do
   Gets the OAuth token from Github
   """
   def exchange_token(code) do
-    opts =
-      %{}
-      |> Map.put(:client_id, Application.fetch_env!(:pinthub, :client_id))
-      |> Map.put(:client_secret, Application.fetch_env!(:pinthub, :client_secret))
-      |> Map.put(:code, code)
-      |> URI.encode_query
+    opts = %{client_id:  Application.fetch_env!(:pinthub, :client_id),
+            client_secret: Application.fetch_env!(:pinthub, :client_secret),
+            code: code}
+
+      query = URI.encode_query(opts)
 
       url = URI.to_string(%URI{scheme: @scheme, host: @base_url, path: @access_token_url,
-                    query: opts})
+                    query: query})
     process_response(HTTPoison.post(url, "", %{"Accept" => "application/json"}))
   end
 
