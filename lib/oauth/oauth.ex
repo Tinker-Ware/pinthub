@@ -31,7 +31,7 @@ defmodule PintHub.OAUTH do
   end
 
   @doc """
-  Gets the OAuth token from Github
+  Gets the OAuth token from Github, receives the code from the OAuth redirect
   """
   def exchange_token(code) do
     opts = %{client_id:  Application.fetch_env!(:pinthub, :client_id),
