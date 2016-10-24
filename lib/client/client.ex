@@ -63,7 +63,7 @@ defmodule PintHub.Client do
 
   defp headers(token) do
     %{"Content-Type" => "application/json", "User-Agent" => "pinthub",
-      "Authorization" => token}
+      "Authorization" => "Bearer #{token}"}
   end
   defp headers do
     %{"Content-Type" => "application/json", "User-Agent" => "pinthub"}
