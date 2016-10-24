@@ -11,4 +11,8 @@ defmodule PintHub.Resource.Repository do
   def list_user_repos(username) do
     get("/users/#{username}/repos")
   end
+
+  def list_repos(token) do
+    get("/user/repos", %{token: token})
+  end
 end
