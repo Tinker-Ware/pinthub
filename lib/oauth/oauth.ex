@@ -3,7 +3,11 @@ defmodule PintHub.OAUTH do
     Github `OAUTH` related functionality
     [Github OAUTH](https://developer.github.com/v3/oauth/)
   """
-  @base_url "https://github.com/login/oauth/authorize"
+
+  @scheme "https"
+  @base_url "github.com"
+  @authorize_path  "/login/oauth/authorize"
+  @access_token_url "/login/oauth/access_token"
 
   @doc """
     Generates the oauth URL for Github, receives the following options:
@@ -22,7 +26,7 @@ defmodule PintHub.OAUTH do
       |> Map.put(:client_id, client_id)
     uri = URI.encode_query(opts)
 
-    URI.to_string(%URI{scheme: "https", host: "github.com", path: "/login/oauth/authorize",
+    URI.to_string(%URI{scheme: @scheme, host: @base_url, path: @authorize_path,
                   query: uri})
   end
 
@@ -30,6 +34,23 @@ defmodule PintHub.OAUTH do
   Gets the OAuth token from Github
   """
   def exchange_token(code) do
+    opts =
+      %{}
+      |> Map.put(:client_id, Application.fetch_env!(:pinthub, :client_id))
+      |> Map.put(:client_secret, Application.fetch_env!(:pinthub, :client_secret))
+      |> Map.put(:code, code)
+      |> URI.encode_query
 
+      url = URI.to_string(%URI{scheme: @scheme, host: @base_url, path: @access_token_url,
+                    query: opts})
+    process_response(HTTPoison.post(url, "", %{"Accept" => "application/json"}))
+  end
+
+  defp process_response({:ok, resp}) do
+    {:ok, %{body: Poison.decode!(resp.body, keys: :string),
+          headers: resp.headers, status: resp.status_code}}
+  end
+  defp process_response({:error, error}) do
+    {:error, error.reason}
   end
 end
