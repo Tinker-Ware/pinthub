@@ -25,6 +25,8 @@ defmodule PintHub.Resource.Repository do
         Will cause a 422 error if used in the same request as visibility or affiliation.
       - sort: string	Can be one of created, updated, pushed, full_name. Default: full_name
       - direction: Can be one of asc or desc. Default: when using full_name: asc; otherwise desc
+      - per_page: used to limit the number of results retrieved, up to 100.
+      - page: used to advance in the pagination.
   """
   def list_repos(token) do
     get("/user/repos", %{token: token})
