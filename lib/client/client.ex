@@ -2,6 +2,8 @@ defmodule PintHub.Client do
   @moduledoc """
   PintHub Client Module.
   """
+  @scheme "https"
+  @base_url "api.github.com"
 
   import HTTPoison, only: [request: 5]
 
@@ -42,6 +44,10 @@ defmodule PintHub.Client do
     request(method, gen_endpoint(path), body, headers(token), [])
     |> response
   end
+  defp call(path, method, %{token: token, parameters: parameters}) do
+    request(method, gen_endpoint(path, parameters), [], headers(token), [])
+    |> response
+  end
   defp call(path, method, %{token: token}) do
     request(method, gen_endpoint(path), [], headers(token), [])
     |> response
@@ -69,6 +75,9 @@ defmodule PintHub.Client do
     %{"Content-Type" => "application/json", "User-Agent" => "pinthub"}
   end
 
-  defp gen_endpoint(path),
-    do: "https://api.github.com" <> path
+  defp gen_endpoint(path, opts \\ %{}) do
+    query = URI.encode_query(opts)
+    URI.to_string(%URI{scheme: @scheme, host: @base_url,
+                  path: path, query: query})
+  end
 end
