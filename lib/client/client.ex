@@ -57,12 +57,10 @@ defmodule PintHub.Client do
     |> response
   end
 
-  defp response({:ok, %HTTPoison.Response{body: nil} = resp}),
-    do: {:ok, %{body: nil, headers: resp.headers, status: resp.status_code}}
-  defp response({:ok, resp}) do
-    {:ok, %{body: Poison.decode!(resp.body, keys:
-      :string),
-      headers: resp.headers, status: resp.status_code}}
+  defp response({:ok, %HTTPoison.Response{status_code: code} = resp})
+                                                        when code in 200..299 do
+    {:ok, %{response: Poison.decode!(resp.body, keys:
+      :string), information: get_header_information(resp.headers)}}
   end
   defp response({:error, error}),
     do: {:error, error.reason}
@@ -79,5 +77,18 @@ defmodule PintHub.Client do
     query = URI.encode_query(opts)
     URI.to_string(%URI{scheme: @scheme, host: @base_url,
                   path: path, query: query})
+  end
+
+  defp get_header_information(headers) do
+    %{}
+    |> rate_limit(headers)
+  end
+
+  defp rate_limit(information, headers) do
+    %{"X-RateLimit-Limit" => limit, "X-RateLimit-Remaining" => remaining,
+      "X-RateLimit-Reset" => reset} = List.foldl(headers, %{}, fn({key, value}, acc) -> Map.put(acc, key, value) end)
+
+    information
+    |> Map.put(:rate, %{limit: limit, remaining: remaining, reset: reset})
   end
 end
