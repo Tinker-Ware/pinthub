@@ -93,6 +93,9 @@ defmodule PintHub.Client do
     %{"X-RateLimit-Limit" => limit, "X-RateLimit-Remaining" => remaining,
       "X-RateLimit-Reset" => reset} = List.foldl(headers, %{}, fn({key, value}, acc) -> Map.put(acc, key, value) end)
 
+    {limit, _} = Integer.parse(limit)
+    {remaining, _} = Integer.parse(remaining)
+    {reset, _} = Integer.parse(reset)
     information
     |> Map.put(:rate, %{limit: limit, remaining: remaining, reset: reset})
   end
