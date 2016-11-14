@@ -62,6 +62,11 @@ defmodule PintHub.Client do
     {:ok, %{response: Poison.decode!(resp.body, keys:
       :string), information: get_header_information(resp.headers)}}
   end
+  defp response({:ok, %HTTPoison.Response{status_code: code} = resp})
+                                                        when code in 300..599 do
+    {:error, %{response: Poison.decode!(resp.body, keys:
+      :string), information: get_header_information(resp.headers)}}
+  end
   defp response({:error, error}),
     do: {:error, error.reason}
 
